@@ -44,13 +44,13 @@ describe 'Discounts' do
         expect(subject.percent_threshold).to eq(0)
       end
 
-      it 'expects that a discount can have a percentage threshold of 30 defined' do
+      it 'expects that a discount can have a percentage threshold of $30 defined' do
         discount2 = Discount.new(order: order, percent_threshold: 30)
         expect(discount2.percent_threshold).to eq(30)
       end
 
       context 'Example' do
-        it 'expects that an order with 25 percent deducted from an order with a value over 30' do
+        it 'expects that an order can have a percent discount value of $10' do
           discount2 = Discount.new(order: order, percent: 25, percent_threshold: 30)
           broadcaster_1 = Broadcaster.new(1, 'Viacom')
           broadcaster_2 = Broadcaster.new(2, 'Disney')
@@ -70,7 +70,7 @@ describe 'Discounts' do
         expect(subject.express_delivery_discount).to eq(0)
       end
 
-      it 'expects that a discount can have a multiple express delivery discount of 5 defined' do
+      it 'expects that a discount can have a multiple express delivery discount of $5 defined' do
         discount3 = Discount.new(order: order, express_delivery_discount: 5)
         expect(discount3.express_delivery_discount).to eq(5)
       end
@@ -80,8 +80,22 @@ describe 'Discounts' do
       end
 
       it 'expects that a discount can have a multiple express delivery order quantity threshold 2 defined' do
-        discount3 = Discount.new(order: order, express_delivery_threshold: 2)
-        expect(discount3.express_delivery_threshold).to eq(2)
+        discount3 = Discount.new(order: order, express_delivery_threshold: 1)
+        expect(discount3.express_delivery_threshold).to eq(1)
+      end
+      context 'Example' do
+        it 'expects that an order can have a multi delivery discount value of $14' do
+          discount3 = Discount.new(order: order, express_delivery_discount: 7, express_delivery_threshold: 1  )
+          broadcaster_1 = Broadcaster.new(1, 'Viacom')
+          broadcaster_2 = Broadcaster.new(2, 'Disney')
+          broadcaster_3 = Broadcaster.new(3, 'Discovery')
+
+          order.add broadcaster_1, standard_delivery
+          order.add broadcaster_2, express_delivery
+          order.add broadcaster_3, express_delivery
+
+          expect(discount3.discount_value).to eq(14.0)
+        end
       end
     end
   end
