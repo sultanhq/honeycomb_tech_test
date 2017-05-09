@@ -69,6 +69,11 @@ describe 'Discounts' do
       it 'expects that a discount can have a default multiple express delivery discount value of 0' do
         expect(subject.express_delivery_discount).to eq(0)
       end
+
+      it 'expects that a discount can have a multiple express delivery discount of 5 defined' do
+        discount3 = Discount.new(order: order, express_delivery_discount: 5)
+        expect(discount3.express_delivery_discount).to eq(5)
+      end
     end
   end
 end
