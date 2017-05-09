@@ -38,5 +38,15 @@ describe 'Discounts' do
       discount2 = Discount.new(:order => order, :percent => 25)
       expect(discount2.percent).to eq(25)
     end
+
+    it 'expects that a discount can have a default percentage threshold of of 0' do
+      expect(subject.percent_threshold).to eq(0)
+    end
+
+    it 'expects that a discount can have a percentage threshold of 30 defined' do
+      discount2 = Discount.new(:order => order, :percent_threshold => 30)
+      expect(discount2.percent_threshold).to eq(30)
+    end
+
   end
 end
