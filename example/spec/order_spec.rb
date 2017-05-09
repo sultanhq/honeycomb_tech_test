@@ -4,7 +4,8 @@ require './models/material'
 require './models/order'
 
 describe Order do
-  subject { Order.new material }
+  subject { Order.new material, discount }
+  let(:discount) { Discount.new(percent: 10, percent_threshold: 30, express_delivery_discount: 5, express_delivery_threshold: 1)}
   let(:material) { Material.new 'HON/TEST001/010' }
   let(:standard_delivery) { Delivery.new(:standard, 10) }
   let(:express_delivery) { Delivery.new(:express, 20) }
@@ -25,48 +26,11 @@ describe Order do
       expect(subject.subtotal).to eq(30)
     end
   end
-
-  context 'discounts' do
-    it 'calculates a discount for two express deliveries' do
-      broadcaster_1 = Broadcaster.new(1, 'Viacom')
-      broadcaster_2 = Broadcaster.new(2, 'Disney')
-
-      subject.add broadcaster_1, express_delivery
-      subject.add broadcaster_2, express_delivery
-
-      expect(subject.discounts).to eq(10.0)
-    end
-
-    it 'calculates a discount for order $30' do
-      broadcaster_1 = Broadcaster.new(1, 'Viacom')
-      broadcaster_2 = Broadcaster.new(2, 'Disney')
-      broadcaster_3 = Broadcaster.new(3, 'Discovery')
-      broadcaster_4 = Broadcaster.new(4, 'ITV')
-
-      subject.add broadcaster_1, standard_delivery
-      subject.add broadcaster_2, standard_delivery
-      subject.add broadcaster_3, standard_delivery
-      subject.add broadcaster_4, standard_delivery
-
-      expect(subject.discounts).to eq(4.0)
-    end
-
-    it 'calculates a discount for order $30 and with 2 express deliveries' do
-      broadcaster_1 = Broadcaster.new(1, 'Viacom')
-      broadcaster_2 = Broadcaster.new(2, 'Disney')
-      broadcaster_3 = Broadcaster.new(3, 'Discovery')
-
-      subject.add broadcaster_1, express_delivery
-      subject.add broadcaster_2, express_delivery
-      subject.add broadcaster_3, standard_delivery
-
-      expect(subject.discounts).to eq(14.0)
-    end
-  end
 end
 
 describe 'examples' do
-  subject { Order.new material }
+  subject { Order.new material, discount}
+  let(:discount) { Discount.new(percent: 10, percent_threshold: 30, express_delivery_discount: 5, express_delivery_threshold: 1)}
   let(:material) { Material.new 'WNP/SWCL001/010' }
   let(:standard_delivery) { Delivery.new(:standard, 10) }
   let(:express_delivery) { Delivery.new(:express, 20) }

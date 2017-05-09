@@ -7,9 +7,10 @@ class Order
 
   attr_accessor :material, :items
 
-  def initialize(material)
+  def initialize(material, discount)
     self.material = material
     self.items = []
+    @discount = discount
   end
 
   def add(broadcaster, delivery)
@@ -20,31 +21,8 @@ class Order
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
 
-  def discounts
-    discount_value = 0.0
-    discount_value += express_multiple_discount
-    discount_value += order_value_discount(discount_value)
-  end
-
-  def express_multiple_discount
-    express_discount_value = 0.0
-    express_order_qty = items.count { |_, delivery| delivery.name == :express}
-    if express_order_qty > 1
-      express_discount_value = express_order_qty * 5.0
-    end
-    express_discount_value
-  end
-
-  def order_value_discount(input)
-    output = 0.0
-    if subtotal - input > 30
-      output += (subtotal - input) * (10.0 / 100)
-    end
-    output
-  end
-
   def total_cost
-    subtotal - discounts
+    subtotal - @discount.calculate_discount_value(items)
   end
 
   def output
@@ -64,7 +42,7 @@ class Order
 
       result << output_separator
       result << "Sub-Total: $#{subtotal}"
-      result << "Discounts: $#{discounts}"
+      result << "Discounts: $#{@discount.calculate_discount_value(items)}"
       result << "Total: $#{total_cost}"
     end.join("\n")
   end

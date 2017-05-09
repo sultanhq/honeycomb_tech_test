@@ -19,7 +19,7 @@ class Discount
       output += express_order_qty * express_delivery_discount
     end
     if order_value(items) > percent_threshold
-      output += order_value(items) * (percent / 100)
+      output += (order_value(items) - output) * (percent / 100)
     end
     output
   end

@@ -6,7 +6,7 @@ require './models/order'
 
 describe 'Discounts' do
   subject { Discount.new {} }
-  let(:order) { Order.new material } # would normally use parenthesis
+  let(:order) { Order.new material, subject } # would normally use parenthesis
   let(:material) { Material.new 'HON/TEST001/010' }
   let(:standard_delivery) { Delivery.new(:standard, 10) }
   let(:express_delivery) { Delivery.new(:express, 20) }
@@ -14,7 +14,7 @@ describe 'Discounts' do
     expect(subject).to be_a_kind_of(Discount)
   end
 
-  it 'expects that a discount has a discount value of 0 when no discounts are defined' do
+  it 'expects that a discount has a discount value of $0 when no discounts are defined' do
     expect(subject.calculate_discount_value(order.items)).to eq(0)
   end
 
@@ -99,7 +99,7 @@ describe 'Discounts' do
 
   context 'Percent and Delivery Discount' do
     context 'Example' do
-      it 'expects that an order can have percentage and multi delivery discount value of $26.5  ' do
+      it 'expects that an order can have percentage and multi delivery discount value of $23  ' do
         discount4 = Discount.new(percent: 25, percent_threshold: 30, express_delivery_discount: 7, express_delivery_threshold: 1)
         broadcaster_1 = Broadcaster.new(1, 'Viacom')
         broadcaster_2 = Broadcaster.new(2, 'Disney')
@@ -109,7 +109,7 @@ describe 'Discounts' do
         order.add broadcaster_2, express_delivery
         order.add broadcaster_3, express_delivery
 
-        expect(discount4.calculate_discount_value(order.items)).to eq(26.5)
+        expect(discount4.calculate_discount_value(order.items)).to eq(23)
       end
     end
   end
