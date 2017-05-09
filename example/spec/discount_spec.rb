@@ -16,6 +16,10 @@ describe 'Discounts' do
       expect(subject).to be_a_kind_of(Discount)
     end
 
+    it 'expects that a discount has a discount value of 0 when no discounts are defined' do
+      expect(subject.discount_value).to eq(0)
+    end
+
     it 'expects that a discount can have and order value' do
       broadcaster_1 = Broadcaster.new(1, 'Viacom')
       broadcaster_2 = Broadcaster.new(2, 'Disney')
@@ -34,6 +38,5 @@ describe 'Discounts' do
       discount2 = Discount.new(:order => order, :percent => 25)
       expect(discount2.percent).to eq(25)
     end
-
   end
 end

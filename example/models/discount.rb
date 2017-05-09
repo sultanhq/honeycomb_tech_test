@@ -10,4 +10,8 @@ class Discount
     @order.items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
 
+  def discount_value
+    0
+  end
+
 end
