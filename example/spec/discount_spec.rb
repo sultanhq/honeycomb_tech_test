@@ -49,7 +49,7 @@ describe 'Discounts' do
         expect(discount2.percent_threshold).to eq(30)
       end
 
-      context 'example' do
+      context 'Example' do
         it 'expects that an order with 25 percent deducted from an order with a value over 30' do
           discount2 = Discount.new(order: order, percent: 25, percent_threshold: 30)
           broadcaster_1 = Broadcaster.new(1, 'Viacom')
@@ -73,6 +73,10 @@ describe 'Discounts' do
       it 'expects that a discount can have a multiple express delivery discount of 5 defined' do
         discount3 = Discount.new(order: order, express_delivery_discount: 5)
         expect(discount3.express_delivery_discount).to eq(5)
+      end
+
+      it 'expects that a discount can have a multiple express delivery order quantity threshold of 0' do
+        expect(subject.express_delivery_threshold).to eq(0)
       end
     end
   end
