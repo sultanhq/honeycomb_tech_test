@@ -37,6 +37,33 @@ describe Order do
 
       expect(subject.discounts).to eq(10.0)
     end
-  end
 
+    it 'calculates a discount for order $30' do
+      broadcaster_1 = Broadcaster.new(1, 'Viacom')
+      broadcaster_2 = Broadcaster.new(2, 'Disney')
+      broadcaster_3 = Broadcaster.new(3, 'Discovery')
+      broadcaster_4 = Broadcaster.new(4, 'ITV')
+
+      subject.add broadcaster_1, standard_delivery
+      subject.add broadcaster_2, standard_delivery
+      subject.add broadcaster_3, standard_delivery
+      subject.add broadcaster_4, standard_delivery
+
+      expect(subject.discounts).to eq(4.0)
+    end
+
+    it 'calculates a discount for order $30 and with 2 express deliveries' do
+      broadcaster_1 = Broadcaster.new(1, 'Viacom')
+      broadcaster_2 = Broadcaster.new(2, 'Disney')
+      broadcaster_3 = Broadcaster.new(3, 'Discovery')
+
+      subject.add broadcaster_1, express_delivery
+      subject.add broadcaster_2, express_delivery
+      subject.add broadcaster_3, standard_delivery
+
+      expect(subject.discounts).to eq(14.0)
+    end
+
+  end
+  
 end
