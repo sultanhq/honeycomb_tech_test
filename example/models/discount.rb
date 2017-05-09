@@ -2,7 +2,7 @@ class Discount
   attr_reader :percent, :percent_threshold, :express_delivery_discount, :express_delivery_threshold
 
   def initialize(args)
-    @order = args[:order]
+    @items = args[:items]
     @percent = (args[:percent] || 0).to_f
     @percent_threshold = args[:percent_threshold] || 0
     @express_delivery_discount = args[:express_delivery_discount] || 0
@@ -10,12 +10,12 @@ class Discount
   end
 
   def order_value
-    @order.items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+    @items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
 
-  def discount_value
+  def calculate_discount_value
     output = 0.0
-    express_order_qty = @order.items.count { |_, delivery| delivery.name == :express}
+    express_order_qty = @items.count { |_, delivery| delivery.name == :express}
     if express_order_qty > express_delivery_threshold
       output += express_order_qty * express_delivery_discount
     end
