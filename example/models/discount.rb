@@ -3,8 +3,8 @@ class Discount
 
   def initialize(args)
     @order = args[:order]
-    @percent = args[:percent]|| 0
-    @percent_threshold = args[:percent_threshold]|| 0
+    @percent = (args[:percent] || 0).to_f
+    @percent_threshold = args[:percent_threshold] || 0
   end
 
   def order_value
@@ -12,7 +12,11 @@ class Discount
   end
 
   def discount_value
-    0
+    output = 0.0
+    if order_value > percent_threshold
+      output = order_value * (percent / 100)
+    end
+    output
   end
 
 end
