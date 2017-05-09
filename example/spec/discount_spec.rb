@@ -85,7 +85,7 @@ describe 'Discounts' do
       end
       context 'Example' do
         it 'expects that an order can have a multi delivery discount value of $14' do
-          discount3 = Discount.new(order: order, express_delivery_discount: 7, express_delivery_threshold: 1  )
+          discount3 = Discount.new(order: order, express_delivery_discount: 7, express_delivery_threshold: 1)
           broadcaster_1 = Broadcaster.new(1, 'Viacom')
           broadcaster_2 = Broadcaster.new(2, 'Disney')
           broadcaster_3 = Broadcaster.new(3, 'Discovery')
@@ -95,6 +95,23 @@ describe 'Discounts' do
           order.add broadcaster_3, express_delivery
 
           expect(discount3.discount_value).to eq(14.0)
+        end
+      end
+    end
+
+    context 'Percent and Delivery Discount' do
+      context 'Example' do
+        it 'expects that an order can have percentage and multi delivery discount value of $26.5  ' do
+          discount4 = Discount.new(order: order, percent: 25, percent_threshold: 30, express_delivery_discount: 7, express_delivery_threshold: 1)
+          broadcaster_1 = Broadcaster.new(1, 'Viacom')
+          broadcaster_2 = Broadcaster.new(2, 'Disney')
+          broadcaster_3 = Broadcaster.new(3, 'Discovery')
+
+          order.add broadcaster_1, standard_delivery
+          order.add broadcaster_2, express_delivery
+          order.add broadcaster_3, express_delivery
+
+          expect(discount4.discount_value).to eq(26.5)
         end
       end
     end
