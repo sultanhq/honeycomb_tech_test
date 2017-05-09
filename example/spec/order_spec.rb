@@ -22,7 +22,6 @@ describe Order do
 
       subject.add broadcaster_1, standard_delivery
       subject.add broadcaster_2, express_delivery
-
       expect(subject.subtotal).to eq(30)
     end
   end
