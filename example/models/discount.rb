@@ -1,10 +1,11 @@
 class Discount
-  attr_reader :percent, :percent_threshold
+  attr_reader :percent, :percent_threshold, :express_delivery_discount
 
   def initialize(args)
     @order = args[:order]
     @percent = (args[:percent] || 0).to_f
     @percent_threshold = args[:percent_threshold] || 0
+    @express_delivery_discount = args[:express_delivery_discount] || 0
   end
 
   def order_value
