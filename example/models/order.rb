@@ -16,8 +16,24 @@ class Order
     items << [broadcaster, delivery]
   end
 
-  def total_cost
+  def subtotal
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+  end
+
+  def discounts
+    discount_value = 0.0
+    express_order_qty = items.count { |_, delivery| delivery.name == :express}
+    if express_order_qty > 1
+      discount_value = express_order_qty * 5.0
+    end
+    if subtotal - discount_value > 30
+      discount_value += (subtotal - discount_value) * (10.0 / 100)
+    end
+    discount_value
+  end
+
+  def total_cost
+    subtotal - discounts
   end
 
   def output
@@ -36,6 +52,8 @@ class Order
       end
 
       result << output_separator
+      result << "Sub-Total: $#{subtotal}"
+      result << "Discounts: $#{discounts}"
       result << "Total: $#{total_cost}"
     end.join("\n")
   end

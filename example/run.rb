@@ -26,3 +26,15 @@ order.add broadcaster_3, express_delivery
 
 print order.output
 print "\n"
+print "\n"
+
+material2 = Material.new('ZDW/EOWW005/010')
+
+order2 = Order.new(material2)
+
+order2.add broadcaster_1, standard_delivery
+order2.add broadcaster_2, express_delivery
+order2.add broadcaster_3, express_delivery
+
+print order2.output
+print "\n"
