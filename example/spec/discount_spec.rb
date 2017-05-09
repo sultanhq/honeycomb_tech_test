@@ -5,7 +5,7 @@ require './models/material'
 require './models/order'
 
 describe 'Discounts' do
-  subject { Discount.new order }
+  subject { Discount.new :order => order }
   let(:order) { Order.new material } #would normally use parenthesis
   let(:material) { Material.new 'HON/TEST001/010' }
   let(:standard_delivery) { Delivery.new(:standard, 10) }
@@ -26,8 +26,13 @@ describe 'Discounts' do
       expect(subject.order_value).to eq(30)
     end
 
-    it 'expects that a discount can have a default percentage discount value of 10' do
-      expect(subject.percent).to eq(10)
+    it 'expects that a discount can have a default percentage discount value of 0' do
+      expect(subject.percent).to eq(0)
+    end
+
+    it 'expects that a discount can have a percentage of 25 defined' do
+      discount2 = Discount.new(:order => order, :percent => 25)
+      expect(discount2.percent).to eq(25)
     end
 
   end
