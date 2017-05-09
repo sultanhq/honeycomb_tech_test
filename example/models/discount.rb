@@ -1,7 +1,9 @@
 class Discount
-
-  def initialize(order)
+  attr_reader :percent
+  
+  def initialize(order, percent=10)
     @order = order
+    @percent = percent
   end
 
   def order_value

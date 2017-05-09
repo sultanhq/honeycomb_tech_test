@@ -25,5 +25,10 @@ describe 'Discounts' do
 
       expect(subject.order_value).to eq(30)
     end
+
+    it 'expects that a discount can have a default percentage discount value of 10' do
+      expect(subject.percent).to eq(10)
+    end
+
   end
 end
