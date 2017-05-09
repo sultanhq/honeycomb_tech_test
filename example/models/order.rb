@@ -22,14 +22,25 @@ class Order
 
   def discounts
     discount_value = 0.0
+    discount_value += express_multiple_discount
+    discount_value += order_value_discount(discount_value)
+  end
+
+  def express_multiple_discount
+    express_discount_value = 0.0
     express_order_qty = items.count { |_, delivery| delivery.name == :express}
     if express_order_qty > 1
-      discount_value = express_order_qty * 5.0
+      express_discount_value = express_order_qty * 5.0
     end
-    if subtotal - discount_value > 30
-      discount_value += (subtotal - discount_value) * (10.0 / 100)
+    express_discount_value
+  end
+
+  def order_value_discount(input)
+    output = 0.0
+    if subtotal - input > 30
+      output += (subtotal - input) * (10.0 / 100)
     end
-    discount_value
+    output
   end
 
   def total_cost
