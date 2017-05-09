@@ -78,6 +78,11 @@ describe 'Discounts' do
       it 'expects that a discount can have a multiple express delivery order quantity threshold of 0' do
         expect(subject.express_delivery_threshold).to eq(0)
       end
+
+      it 'expects that a discount can have a multiple express delivery order quantity threshold 2 defined' do
+        discount3 = Discount.new(order: order, express_delivery_threshold: 2)
+        expect(discount3.express_delivery_threshold).to eq(2)
+      end
     end
   end
 end
