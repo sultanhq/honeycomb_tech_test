@@ -13,13 +13,14 @@ class Discount
   end
 
   def calculate_discount_value(items)
+    order_value_subtotal = order_value(items)
     output = 0.0
     express_order_qty = items.count { |_, delivery| delivery.name == :express }
     if express_order_qty > express_delivery_threshold
       output += express_order_qty * express_delivery_discount
     end
-    if order_value(items) > percent_threshold
-      output += (order_value(items) - output) * (percent / 100)
+    if order_value_subtotal > percent_threshold
+      output += (order_value_subtotal - output) * (percent / 100)
     end
     output
   end
