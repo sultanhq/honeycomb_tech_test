@@ -9,21 +9,29 @@ class Discount
   end
 
   def calculate_discount_value(items)
-    order_value_subtotal = order_value(items)
-    output = 0.0
-    express_order_qty = items.count { |_, delivery| delivery.name == :express }
-    if express_order_qty > express_delivery_threshold
-      output += express_order_qty * express_delivery_discount
-    end
-    if order_value_subtotal > percent_threshold
-      output += (order_value_subtotal - output) * (percent / 100)
-    end
-    output
+    discount_value = 0.0
+    discount_value += calculate_delivery_discount(items)
+    discount_value += calculate_percent_discount(items, discount_value)
   end
 
   private
 
-  def order_value(items)
-    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+  def calculate_delivery_discount(items)
+    express_order_qty = items.count { |_, delivery| delivery.name == :express }
+    delivery_discount = 0.0
+    if express_order_qty > express_delivery_threshold
+      delivery_discount += express_order_qty * express_delivery_discount
+    end
+    delivery_discount
   end
+
+  def calculate_percent_discount(items, discount_value)
+    order_value= items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+    percent_discount = 0.0
+    if order_value > percent_threshold
+      percent_discount += (order_value - discount_value) * (percent / 100)
+    end
+    percent_discount
+  end
+
 end
