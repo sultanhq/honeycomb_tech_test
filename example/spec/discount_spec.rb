@@ -18,16 +18,6 @@ describe 'Discounts' do
     expect(subject.calculate_discount_value(order.items)).to eq(0)
   end
 
-  it 'expects that a discount can have and order value' do
-    broadcaster_1 = Broadcaster.new(1, 'Viacom')
-    broadcaster_2 = Broadcaster.new(2, 'Disney')
-
-    order.add broadcaster_1, standard_delivery
-    order.add broadcaster_2, express_delivery
-
-    expect(subject.order_value(order.items)).to eq(30)
-  end
-
   context 'Percentage discount' do
     it 'expects that a discount can have a default percentage discount value of 0' do
       expect(subject.percent).to eq(0.0)

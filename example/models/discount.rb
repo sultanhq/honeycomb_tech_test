@@ -8,10 +8,6 @@ class Discount
     @express_delivery_threshold = args[:express_delivery_threshold] || 0
   end
 
-  def order_value(items)
-    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
-  end
-
   def calculate_discount_value(items)
     order_value_subtotal = order_value(items)
     output = 0.0
@@ -23,5 +19,11 @@ class Discount
       output += (order_value_subtotal - output) * (percent / 100)
     end
     output
+  end
+
+  private
+
+  def order_value(items)
+    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
 end
