@@ -1,4 +1,5 @@
 # Honeycomb Engineering Test - Makers Edition
+By Rob Adams
 
 ## The brief
 
@@ -17,7 +18,7 @@ Once I had done this, TDD'ing all the way; I extracted these methods into a clas
 
 I updated the order class to pass the order items to the Discount class to allow it to calculate the required discount and return the amount of discount that that instance is set to apply.
 
-This is then returned on the CLI output.
+This is then returned on the CLI output which now shows the subtotal and then the discount applied.
 
 ## Conclusion
 
